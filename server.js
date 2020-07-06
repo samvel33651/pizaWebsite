@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-const PORT = porcess.env.PORT || 3001
+const PORT = process.env.PORT || 3001
 
 app.listen(PORT, () => {
     console.log(`Srever is runing on Port : ${PORT}`);
