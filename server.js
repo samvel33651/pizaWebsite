@@ -2,7 +2,7 @@ const express = require('express');
 const apiRouter = require('./routes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-import path from 'path';
+const path = require('path');
 
 const  app = express();
 app.use(cors());
