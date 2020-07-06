@@ -1,13 +1,13 @@
 const mysql = require('mysql');
+const dbConfig = require('./dbConfig');
 
 const pool = mysql.createPool({
     connectionLimit: 10,
+    host: dbConfig.HOST,
+    user: dbConfig.USER,
+    password: dbConfig.PASSWORD,
+    database: dbConfig.DB,
     multipleStatements: true,
-    password: '5176a62c',
-    user: 'b0155168e6add2',
-    database: 'heroku_c2d24ac8ecdc1e7',
-    host: 'eu-cdbr-west-03.cleardb.net',
-    // port: '3306'
 })
 
 let pizzaDb = {};
