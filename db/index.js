@@ -7,7 +7,7 @@ const pool = mysql.createPool({
     user: 'b0155168e6add2',
     database: 'heroku_c2d24ac8ecdc1e7',
     host: 'eu-cdbr-west-03.cleardb.net',
-    port: '3306'
+    // port: '3306'
 })
 
 let pizzaDb = {};
