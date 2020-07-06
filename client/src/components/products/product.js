@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import actions from '../../redux/user/actions';
+import { orderItemSelector } from '../../redux/user/selectors'
+import fromUSDToEUR from '../../helpers/currencyConverter';
+import './product.css';
 
 class Product extends Component {
     static propTypes = {
@@ -10,23 +14,119 @@ class Product extends Component {
 
     }
 
+    constructor(props) {
+        super(props);
+        const { orderItem } = this.props;
+        const id = orderItem.prod_id || null;
+        const qty = orderItem.quantity || 1;
+        this.state = {
+          id,
+          qty,
+        };
+        this.addToCart = this.addToCart.bind(this);
+        this.changeQty = this.changeQty.bind(this);
+        this.onPlusCLicked = this.onPlusCLicked.bind(this);
+        this.onMinusClicked = this.onMinusClicked.bind(this);
+        this.handleOrderChange = this.handleOrderChange.bind(this);
+    }
+    addToCart() {
+        const { product: { prod_id }, addToCart, setCartToStorage } = this.props;
+        const { qty } = this.state;
+        this.setState({
+            id: prod_id,
+        });
+        addToCart({prod_id, quantity: qty });
+        setCartToStorage();
+    }
+
+    changeQty(event) {
+        let { value } = event.target;
+        const { id } = this.state;
+        if ( value > 1 ) {
+            value = parseInt(value);
+        } else {
+            value = 1
+        }
+        this.setState({
+            qty: value
+        });
+        this.handleOrderChange(id, value);
+    }
+
+    handleOrderChange(id, value) {
+        const { changeOrderQTY, setCartToStorage } = this.props;
+        changeOrderQTY(id, value);
+        setCartToStorage();
+    }
+
+    onPlusCLicked(event) {
+        event.preventDefault();
+        const {id, qty} = this.state;
+        const maxQTY = 15
+        let newQty  = qty + 1;
+        if(newQty > maxQTY) {
+            newQty = maxQTY;
+        }
+        this.setState({
+            qty: newQty,
+        });
+        this.handleOrderChange(id, newQty);
+    }
+
+    onMinusClicked(event) {
+        const {id, qty } = this.state;
+        const { removeFromOrder, setCartToStorage } = this.props;
+        let newQty = qty - 1;
+        if(newQty <= 0) {
+            this.setState({
+                id: null,
+                qty: 1,
+            });
+            removeFromOrder(id);
+            setCartToStorage();
+            return;
+        }
+        this.setState({
+            qty: newQty,
+        })
+        this.handleOrderChange(id, newQty);
+    }
+
     render() {
         const { product } = this.props;
-        const { prod_id, description, img_src, title } = product;
+        const { id, qty } = this.state;
+        const { description, img_src, title, price } = product;
+        const img = require('../../' + img_src);
+
         return (
             <div className="col-md-4">
                 <div className="card mb-4 box-shadow">
                     <img className="card-img-top"
-                         src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22288%22%20height%3D%22225%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20288%20225%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1731df5c6d6%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1731df5c6d6%22%3E%3Crect%20width%3D%22288%22%20height%3D%22225%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2296.828125%22%20y%3D%22118.8%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                         src={img}
                          data-holder-rendered="true"/>
                         <div className="card-body">
-                            <p className="card-text">{title}{description}</p>
+                            <p className="card-text text-title">{title}</p>
+                            <p className="card-text text-description">{description}</p>
                             <div className="d-flex justify-content-between align-items-center">
                                 <div className="btn-group">
-                                    <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
+                                    {id ? (
+                                        <div className="input-group">
+                                          <span className="input-group-btn">
+                                              <button type="button" className="btn btn-danger btn-number" onClick={this.onMinusClicked} >
+                                                  <span className=""> - </span>
+                                              </button>
+                                          </span>
+                                        <input type="text" className="form-control qty-input input-number" onChange={this.changeQty} value={qty} min="1"  max="15"/>
+                                          <span className="input-group-btn">
+                                              <button type="button" className="btn btn-success btn-number" onClick={this.onPlusCLicked} >
+                                                  <span className="">+</span>
+                                              </button>
+                                          </span>
+                                        </div>
+                                    ): ( <button type="button" className="btn btn-sm btn-outline-secondary" onClick={this.addToCart}>Add to cart</button>)
+                                    }
                                 </div>
-                                <small className="text-muted">9 mins</small>
+                                <small className="text-muted">{`${(qty * price).toFixed(2)}$ / ${fromUSDToEUR(qty * price)}`}</small>
                             </div>
                         </div>
                 </div>
@@ -35,14 +135,19 @@ class Product extends Component {
     }
 }
 
-const mapStateToProps = () => {
+const mapStateToProps = (state, ownProps) => {
+    const { product: {prod_id} } = ownProps;
+    const orderItem = orderItemSelector(prod_id)(state);
     return {
-
+        orderItem
     }
 }
 
 const  mapDispatchToProps = {
-
+    addToCart: actions.addNewOrder,
+    changeOrderQTY: actions.changeOrderQTY,
+    setCartToStorage: actions.setCartToStorage,
+    removeFromOrder: actions.removeFromOrder,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

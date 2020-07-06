@@ -1,0 +1,21 @@
+.text-title {
+    text-transform: UPPERCASE;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.text-description {
+    height: 80px;
+    font-size: 14px;
+}
+
+.btn-group {
+    width: 130px;
+
+}
+
+input.qty-input {
+    text-align: center;
+    max-width:50px;
+    padding: 6px;
+}

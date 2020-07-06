@@ -63,6 +63,9 @@ const userReducer  = (state = initialState, {type , payload}) => {
         case actions.RESET_USER_INFO:
             const defaultUserInfo = initialState.get('userInfo');
             return state.set("userInfo", defaultUserInfo);
+        case actions.SET_NEW_ORDERS:
+            const { newOrders } = payload;
+            return state.setIn(["userOrders", "newOrder", ], new Map(newOrders));
         default:
             return  state;
     }

@@ -1,0 +1,32 @@
+.well {
+    display: flex;
+    align-items: center;
+}
+
+.order-item {
+    margin-bottom: 10px;
+    margin-right: 0px;
+    margin-left: 0px;
+    padding-bottom: 5px;
+}
+
+.order-item:last-child {
+    border-bottom: 1px solid #a8abad;
+}
+
+span.price {
+    display: flex;
+    justify-content: flex-end;
+    color: #554d4d;
+}
+
+.order {
+    padding: 10px 25px 10px 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    font-size: 15px;
+    color: #a8abad;
+}
+
+.priceColumn {
+    text-align: right;
+}

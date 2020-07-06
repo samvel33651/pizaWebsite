@@ -18,6 +18,8 @@ const  actions = {
     SET_APP_STARTED: "SET_APP_STARTED",
     LOGOUT: "LOGOUT",
     RESET_USER_INFO: "RESET_USER_INFO",
+    SET_CART_TO_STORAGE: "SET_CART_TO_STORAGE",
+    SET_NEW_ORDERS: "set_NEW_ORDERS",
 
     logout: () => ({
        type: actions.LOGOUT,
@@ -121,6 +123,17 @@ const  actions = {
 
     resetUserInfo: () => ({
        type: actions.RESET_USER_INFO
+    }),
+
+    setCartToStorage: () => ({
+       type: actions.SET_CART_TO_STORAGE,
+    }),
+
+    setNewOrders: (newOrders) => ({
+       type: actions.SET_NEW_ORDERS,
+       payload: {
+           newOrders,
+       }
     }),
 }
 

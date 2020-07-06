@@ -1,7 +1,15 @@
-import { takeEvery, put, call, all, fork } from 'redux-saga/effects';
+import { takeEvery, put, call, all, fork, select } from 'redux-saga/effects';
 import actions from './actions';
 import authApi from '../../helpers/api/auth';
 import ordersApi from '../../helpers/api/orders';
+
+function getStoreData(state) {
+    const { userData } = state;
+    const newOrders = userData.getIn(['userOrders', 'newOrder']);
+    return {
+        newOrders,
+    };
+}
 
 function* login() {
     yield takeEvery(actions.LOGIN_USER, function* (action) {
@@ -75,9 +83,25 @@ function* appStart() {
             if (userInfo) {
                 yield put(actions.setUserInfo(userInfo));
             }
+            const newOrders = JSON.parse(localStorage.getItem('newOrders'));
+            if(newOrders) {
+                yield put(actions.setNewOrders(newOrders));
+            }
         } catch(e) {
             console.log(e);
         }
+    });
+}
+
+function* setCartToStorage() {
+    yield takeEvery(actions.SET_CART_TO_STORAGE, function*() {
+        try {
+            const { newOrders } = yield select(getStoreData);
+            localStorage.setItem("newOrders", JSON.stringify(newOrders));
+        } catch(e) {
+            console.log(e);
+        }
+
     });
 }
 
@@ -88,5 +112,6 @@ export default function* userAndOrdersSaga() {
         fork(getUserOrders),
         fork(appStart),
         fork(logout),
+        fork(setCartToStorage),
     ])
 }

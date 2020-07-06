@@ -40,6 +40,7 @@
     ]
   },
   "devDependencies": {
+    "money": "^0.2.0",
     "prop-types": "^15.7.2"
   }
 }

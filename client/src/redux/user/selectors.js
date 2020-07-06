@@ -31,3 +31,8 @@ export const userOrdersSelector = createSelector(
        return groupedOrders;
     }
 )
+
+export const orderItemSelector = (id) => createSelector(
+    ordersSelector,
+    ordersData => ordersData.getIn(["newOrder", `${id}`]) || {},
+)

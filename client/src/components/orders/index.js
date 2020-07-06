@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import actions from '../../redux/user/actions';
 import { ordersLoaderSelector, userInfoSelector, userOrdersSelector} from '../../redux/user/selectors';
+import Order from './order';
 import './index.css';
 
 class Orders extends Component {
@@ -22,6 +23,14 @@ class Orders extends Component {
 
     renderOrders() {
         const { orders } = this.props;
+        const orderIds = Object.keys(orders);
+        const result = [];
+        for (let i = 0; i< orderIds.length; i++) {
+            const id = orderIds[i];
+            const order = orders[id];
+            result.push(<Order data={order} key={id} />);
+        }
+        return result;
     }
 
     render() {
@@ -31,7 +40,7 @@ class Orders extends Component {
         }
         return(
             <Fragment>
-                Orders Page
+                <h1>Orders</h1>
                 {this.renderOrders()}
             </Fragment>
         );
