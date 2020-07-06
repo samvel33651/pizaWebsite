@@ -3,10 +3,10 @@ const mysql = require('mysql');
 const pool = mysql.createPool({
     connectionLimit: 10,
     multipleStatements: true,
-    password: '',
-    user: 'root',
-    database: 'pizzawebsite',
-    host: 'localhost',
+    password: '5176a62c',
+    user: 'b0155168e6add2',
+    database: 'heroku_c2d24ac8ecdc1e7',
+    host: 'eu-cdbr-west-03.cleardb.net',
     port: '3306'
 })
 
