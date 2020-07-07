@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://pizza-app-sv.herokuapp.com/api";
 
 export function apiRequest(req, withHeaders) {
     const url = API_URL + req.url;
