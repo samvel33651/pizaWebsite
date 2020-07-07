@@ -2,7 +2,8 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { cartSelector, priceSelector } from "../../redux/user/selectors";
 import CartItem from "./cartItem";
-import actions from "../../redux/products/actions"
+import actions from "../../redux/products/actions";
+import userActions from "../../redux/user/actions";
 import { Link } from "react-router-dom";
 import PriceBlock from "../priceBlock";
 import CheckoutForm from "../checkoutForm";
@@ -16,6 +17,7 @@ class Cart extends Component {
             showForm: false,
         }
         this.toggleForm = this.toggleForm.bind(this);
+        this.placeOrder = this.placeOrder.bind(this);
     }
     componentDidMount() {
         const { getProducts } = this.props
@@ -49,12 +51,20 @@ class Cart extends Component {
         })
     }
 
+    placeOrder(address) {
+        const { placeOrder } = this.props;
+        placeOrder(address);
+        this.setState({
+            showForm: false,
+        })
+    }
+
     render() {
         const { overallPrice } = this.props;
         const { showForm } = this.state;
 
         if(showForm) {
-            return <CheckoutForm totalPrice={overallPrice} />;
+            return <CheckoutForm totalPrice={overallPrice} onOrderPlace={this.placeOrder} />;
         }
         return(
             <Fragment>
@@ -77,6 +87,7 @@ const mapSetToProps = (state) => {
 
 const mapDispatchToProps = {
     getProducts: actions.getProducts,
+    placeOrder: userActions.placeOrder
 }
 
 

@@ -62,7 +62,7 @@ function* getUserOrders() {
         try{
             const { userID } = action.payload;
             yield put(actions.toggleOrdersLoading(true));
-            const res = yield call(ordersApi.getUserOrders, 15);
+            const res = yield call(ordersApi.getUserOrders, userID);
             if (res && res.data) {
                 yield put(actions.setUserOrders(res.data));
                 NotificationManager.success("User Orders fetched successfully", '' ,5000);
@@ -123,16 +123,19 @@ function* placeOrder() {
        try {
            const { deliveryAddress } = action.payload;
            const { newOrders, userInfo } = yield select(getStoreData);
-           const orderItems = newOrders.values();
+           const [...orderItems] = newOrders.values();
            const data = {
                userID: userInfo.get('id'),
                delivery_address: deliveryAddress,
                data: orderItems,
            }
            const res = yield call(ordersApi.placeOrder, data );
-           console.log(res);
+           if (res.status) {
+               NotificationManager.success("Order placed successfully. Currently  it is on the way!", '' ,5000);
+               yield put(actions.resetNewOrder());
+           }
        } catch(e) {
-
+           NotificationManager.success("Something went wrong. Please refresh  and try  again.", '' ,5000);
        }
     });
 }

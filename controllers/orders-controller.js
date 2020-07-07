@@ -5,7 +5,8 @@ const placeOrder = async function(req, res) {
         const { userID, data , delivery_address } = req.body;
         let result = await db.placeOrder({user_id: userID, delivery_address: delivery_address}, data);
         res.send({
-            result
+            status: true,
+            result,
         });
     } catch(error){ }
 }

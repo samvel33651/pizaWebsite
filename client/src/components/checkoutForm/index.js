@@ -27,18 +27,21 @@ class CheckoutForm extends Component {
 
     placeOrder(event) {
         event.preventDefault();
-        const { placeOrder } = this.props;
+        const { onOrderPlace } = this.props;
         const { address } = this.state;
         if(address === "" || address.length < 5) {
             NotificationManager.error("Address is required  and its length  must  be more than 5", '' ,5000);
             return;
         }
-        placeOrder(address);
+        onOrderPlace(address);
+        this.setState({
+            disabled : true,
+        });
     }
 
     render() {
         const { userInfo, totalPrice } = this.props;
-        const {  address } = this.state;
+        const {  address, disabled } = this.state;
         return (
            <div className="deliveryForm">
                <span className="text">Total Price: {totalPrice}</span>
@@ -56,8 +59,7 @@ class CheckoutForm extends Component {
                     <label htmlFor="inputAddress">Address</label>
                     <input type="text" className="form-control" required onChange={this.onAddressChanged} value={address} placeholder="1234 Main St"/>
                 </div>
-                <button type="button" onClick={this.placeOrder}  className="btn btn-success float-right">PlaceOrder</button>
-
+                <button type="button" onClick={this.placeOrder}  disabled={disabled} className="btn btn-success float-right">PlaceOrder</button>
             </div>
         );
     }
@@ -71,7 +73,7 @@ const  mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-    placeOrder: actions.placeOrder
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm)
