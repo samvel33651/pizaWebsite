@@ -68,7 +68,7 @@ pizzaDb.getUserOrders = (userID) => {
                 const {order_id} = orders[i];
                 params.push(order_id);
                 // sql += `SELECT products.*, orders.delivery_address, orderdetails.status, orderdetails.quantity as qty, orderdetails.order_id FROM products JOIN orderdetails ON products.prod_id = orderdetails.prod_id JOIN orders ON orders.order_id = orderdetails.order_id WHERE orderdetails.order_id = ${order_id};`;
-                sql += `SELECT products.*, orderdetails.status, orderdetails.quantity as qty, orderdetails.order_id FROM products JOIN orderdetails ON products.prod_id = orderdetails.prod_id JOIN orders ON orders.order_id = orderdetails.order_id WHERE orderdetails.order_id = ${order_id};`;
+                sql += `SELECT products.*, orderdetails.status, orderdetails.quantity as qty, orderdetails.order_id FROM products JOIN orderdetails ON products.prod_id = orderdetails.prod_id WHERE orderdetails.order_id = ${order_id};`;
             }
             console.log("sql", sql);
             pool.query(sql, (err, results) => {
