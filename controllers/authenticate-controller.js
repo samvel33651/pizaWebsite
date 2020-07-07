@@ -18,13 +18,13 @@ module.exports.authenticate = async function (req, res) {
                     },
                 });
             } else {
-                res.status(401).json({
+                res.status(401).send({
                     status: false,
                     message: "Email and password does not match"
                 });
             }
         } else {
-            res.status(404).json({
+            res.status(404).send({
                 status: false,
                 message: "Email does not exits"
             });
