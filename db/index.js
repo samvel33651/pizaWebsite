@@ -67,15 +67,11 @@ pizzaDb.getUserOrders = (userID) => {
             for (let i = 0; i < orders.length; i++) {
                 const {order_id} = orders[i];
                 params.push(order_id);
-                // sql += `SELECT products.*, orders.delivery_address, orderdetails.status, orderdetails.quantity as qty, orderdetails.order_id FROM products JOIN orderdetails ON products.prod_id = orderdetails.prod_id JOIN orders ON orders.order_id = orderdetails.order_id WHERE orderdetails.order_id = ${order_id};`;
-                sql += `SELECT products.*, orderdetails.status, orderdetails.quantity as qty, orderdetails.order_id FROM products JOIN orderdetails ON products.prod_id = orderdetails.prod_id WHERE orderdetails.order_id = ${order_id};`;
+                sql += `SELECT products.*, orders.delivery_address, orderdetails.status, orderdetails.quantity as qty, orderdetails.order_id FROM products JOIN orderdetails ON products.prod_id = orderdetails.prod_id JOIN orders ON orders.order_id = orderdetails.order_id WHERE orderdetails.order_id = ${order_id};`;
             }
-
             pool.query(sql, (err, results) => {
-
                 if(err) throw err;
-
-               resolve(results);
+                resolve(results);
             });
         })
     });
@@ -84,7 +80,6 @@ pizzaDb.getUserOrders = (userID) => {
 pizzaDb.placeOrder = (order, data) => {
     return new Promise((resolve, reject) => {
         const { user_id, delivery_address } = order;
-        console.log(user_id, delivery_address);
         pool.query('INSERT INTO orders SET ?',  order,(err, result) => {
             console.log(result);
             if(err) reject(err);
@@ -98,6 +93,7 @@ pizzaDb.placeOrder = (order, data) => {
             }
 
             pool.query(sql, [values], (err, results) => {
+                console.log(err);
                if(err) throw err;
                resolve(results);
             });
