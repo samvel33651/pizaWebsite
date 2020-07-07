@@ -26,7 +26,6 @@ class  Products extends Component {
 
     renderProducts() {
         const { products } = this.props;
-        console.log(products);
         if (!products.size) {
            return 'No Products  TO Show';
         }
