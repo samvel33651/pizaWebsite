@@ -64,8 +64,11 @@ const  actions = {
         }
     }),
 
-    placeOrder: () => ({
+    placeOrder: (deliveryAddress) => ({
        type: actions.PLACE_ORDER,
+        payload: {
+           deliveryAddress,
+        }
     }),
 
     getUserOrders: (userID = null) => ({

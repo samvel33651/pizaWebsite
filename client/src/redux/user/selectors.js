@@ -51,7 +51,6 @@ export const priceSelector = createSelector(
     cartSelector,
     dataSelector,
     (cart, products) => {
-        console.log(cart, products);
         let overallPrice = 0;
         if (cart.length) {
             for (let  i = 0; i < cart.length ; i++) {
@@ -59,12 +58,10 @@ export const priceSelector = createSelector(
                 const product = products.find((item) => item.prod_id === prod_id);
                 if (product) {
                    const { price } = product;
-                   console.log(price * quantity);
                    overallPrice += price * quantity;
                 }
             }
         }
-        console.log(overallPrice);
         return overallPrice;
     }
 )

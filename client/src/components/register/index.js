@@ -14,7 +14,7 @@ const  RegisterPage = () => {
 						<span className="fa fa-user"></span>
 					</span>
                             </div>
-                            <input type="text" className="form-control" name="username" placeholder="Username"
+                            <input type="text" className="form-control" name="username" placeholder="Full Name"
                                    required="required"/>
                         </div>
                     </div>
@@ -40,23 +40,12 @@ const  RegisterPage = () => {
                                    required="required"/>
                         </div>
                     </div>
-                    {/*<div className="form-group">*/}
-                    {/*    <div className="input-group">*/}
-                    {/*        <div className="input-group-prepend">*/}
-					{/*<span className="input-group-text">*/}
-					{/*	<i className="fa fa-lock"/>*/}
-					{/*	<i className="fa fa-check"/>*/}
-					{/*</span>*/}
-                    {/*        </div>*/}
-                    {/*       */}
-                    {/*    </div>*/}
-                    {/*</div>*/}
 
                     <div className="form-group">
                         <button type="submit" className="btn btn-primary btn-lg">Sign Up</button>
                     </div>
 
-            <div className="text-center">Already have an account? <a href="#">Login here</a></div>
+            <div className="text-center">Already have an account? <a href="/login">Login here</a></div>
         </div>
     )
 }

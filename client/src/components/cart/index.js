@@ -37,7 +37,6 @@ class Cart extends Component {
             )
         }
         return cart.map((item) => {
-            console.log(item);
             return <CartItem key={item.prod_id} item={item} />
         })
     }

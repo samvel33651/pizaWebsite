@@ -1,6 +1,8 @@
 import React, { Component }  from "react";
 import { connect } from "react-redux";
-import { userInfoSelector} from "../../redux/user/selectors"
+import { userInfoSelector} from "../../redux/user/selectors";
+import actions from "../../redux/user/actions"
+import { NotificationManager } from 'react-notifications';
 import "./index.css";
 
 class CheckoutForm extends Component {
@@ -20,25 +22,23 @@ class CheckoutForm extends Component {
         const error = value.length < 5;
         this.setState({
             address: value,
-            error
         });
     }
 
     placeOrder(event) {
         event.preventDefault();
-        const { address, error } = this.state;
+        const { placeOrder } = this.props;
+        const { address } = this.state;
         if(address === "" || address.length < 5) {
-            this.setState({
-                error: true,
-            })
+            NotificationManager.error("Address is required  and its length  must  be more than 5", '' ,5000);
             return;
         }
-
+        placeOrder(address);
     }
 
     render() {
         const { userInfo, totalPrice } = this.props;
-        const { error, address } = this.state;
+        const {  address } = this.state;
         return (
            <div className="deliveryForm">
                <span className="text">Total Price: {totalPrice}</span>
@@ -56,11 +56,8 @@ class CheckoutForm extends Component {
                     <label htmlFor="inputAddress">Address</label>
                     <input type="text" className="form-control" required onChange={this.onAddressChanged} value={address} placeholder="1234 Main St"/>
                 </div>
-                <button type="button" onClick={this.placeOrder}  disabled={error} className="btn btn-success float-right">PlaceOrder</button>
-               { error &&<div className="alert alert-danger error-msg">
-                   <strong>Error!</strong> Address field can`t be empty  or its length cant  be less than 5 symbols
-               </div>
-               }
+                <button type="button" onClick={this.placeOrder}  className="btn btn-success float-right">PlaceOrder</button>
+
             </div>
         );
     }
@@ -74,7 +71,7 @@ const  mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-
+    placeOrder: actions.placeOrder
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm)

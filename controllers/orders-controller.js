@@ -2,8 +2,8 @@ const db = require('../db');
 const placeOrder = async function(req, res) {
     try {
         console.log(req);
-        const { userID, data } = req.body;
-        let result = await db.placeOrder({user_id: userID}, data);
+        const { userID, data , delivery_address } = req.body;
+        let result = await db.placeOrder({user_id: userID, delivery_address: delivery_address}, data);
         res.send({
             result
         });

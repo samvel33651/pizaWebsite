@@ -16,7 +16,7 @@ module.exports.register= async function(req,res){
             res.json({
                 status: true,
                 data: result,
-                message:'user registered sucessfully'
+                message:'user registered successfully'
             })
         }
 

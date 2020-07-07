@@ -8,8 +8,10 @@ import { NotificationManager } from 'react-notifications';
 function getStoreData(state) {
     const { userData } = state;
     const newOrders = userData.getIn(['userOrders', 'newOrder']);
+    const userInfo = userData.get("userInfo");
     return {
         newOrders,
+        userInfo,
     };
 }
 
@@ -29,8 +31,7 @@ function* login() {
                 NotificationManager.success('User Logged in successfully!', '' ,5000);
             }
         } catch(e){
-            NotificationManager.error(e.message, '' ,5000);
-            console.log(e);
+            NotificationManager.error(e.data.message, '' ,5000);
         }
         yield put(actions.setUi(false));
     })
@@ -42,12 +43,15 @@ function* register() {
             const { email, password, name } = action.payload;
             yield put(actions.setUi(true));
             const data = { email, password, name };
+            console.log(data);
             const res = yield call(authApi.registerUser, data );
+            console.log(res);
             if(res){
+                NotificationManager.success(res.message, '' ,5000);
                 yield put(actions.authenticateUser({email, password}));
             }
         } catch(e){
-            console.log(e);
+            NotificationManager.error(e.data.message, '' ,5000);
         }
         yield put(actions.setUi());
     })
@@ -61,8 +65,10 @@ function* getUserOrders() {
             const res = yield call(ordersApi.getUserOrders, 15);
             if (res && res.data) {
                 yield put(actions.setUserOrders(res.data));
+                NotificationManager.success("User Orders fetched successfully", '' ,5000);
             }
         } catch(e){
+            NotificationManager.error("Something went wrong. Try  again.", '' ,5000);
             console.log(e);
         }
         yield put(actions.toggleOrdersLoading(false));
@@ -74,6 +80,7 @@ function* logout() {
         try{
             localStorage.removeItem('userInfo');
             yield put(actions.resetUserInfo());
+            NotificationManager.success("User Logged out successfully", '' ,5000);
         } catch(e) {
             console.log(e);
         }
@@ -91,8 +98,10 @@ function* appStart() {
             if(newOrders) {
                 yield put(actions.setNewOrders(newOrders));
             }
+
         } catch(e) {
             console.log(e);
+            NotificationManager.error("Something went wrong during App  Start. Try  again.", '' ,5000);
         }
     });
 }
@@ -109,6 +118,23 @@ function* setCartToStorage() {
     });
 }
 
+function* placeOrder() {
+    yield takeEvery(actions.PLACE_ORDER, function*(action) {
+       try {
+           const { deliveryAddress } = action.payload;
+           const { newOrders, userInfo } = yield select(getStoreData);
+           const orderItems = newOrders.values();
+           const data= {
+               userID: userInfo.get('id'),
+               delivery_address: deliveryAddress,
+               data: orderItems,
+           }
+       } catch(e) {
+
+       }
+    });
+}
+
 export default function* userAndOrdersSaga() {
     yield all([
         fork(login),
@@ -117,5 +143,6 @@ export default function* userAndOrdersSaga() {
         fork(appStart),
         fork(logout),
         fork(setCartToStorage),
+        fork(placeOrder),
     ])
 }

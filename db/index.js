@@ -67,7 +67,7 @@ pizzaDb.getUserOrders = (userID) => {
             for (let i = 0; i < orders.length; i++) {
                 const {order_id} = orders[i];
                 params.push(order_id);
-                sql += `SELECT products.*, orderdetails.status, orderdetails.quantity as qty, orderdetails.order_id FROM products JOIN orderdetails ON products.prod_id = orderdetails.prod_id WHERE orderdetails.order_id = ${order_id};`;
+                sql += `SELECT products.*, orders.delivery_address, orderdetails.status, orderdetails.quantity as qty, orderdetails.order_id FROM products JOIN orderdetails ON products.prod_id = orderdetails.prod_id WHERE orderdetails.order_id = ${order_id} AND orders.order_id = ${order_id};`;
                 // =  pool.query( 'SELECT products.*, orderdetails.status, orderdetails.quantity as qty, orderdetails.order_id FROM products JOIN orderdetails ON products.prod_id = orderdetails.prod_id WHERE orderdetails.order_id = ?', [order_id])
             }
 
@@ -81,7 +81,7 @@ pizzaDb.getUserOrders = (userID) => {
 
 pizzaDb.placeOrder = (order, data) => {
     return new Promise((resolve, reject) => {
-        pool.query('INSERT INTO orders SET ?', order , (err, result) => {
+        pool.query('INSERT INTO orders (user_id, delivery_address) VALUES', order , (err, result) => {
             if(err) reject(err);
             const orderID = result.insertId
             const sql = `INSERT INTO orderdetails (order_id, prod_id, quantity, status) VALUES ?`;
@@ -94,7 +94,6 @@ pizzaDb.placeOrder = (order, data) => {
 
             pool.query(sql, [values], (err, results) => {
                if(err) throw err;
-               console.log(results);
                resolve(results);
             });
         });
