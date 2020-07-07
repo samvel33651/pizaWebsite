@@ -124,11 +124,13 @@ function* placeOrder() {
            const { deliveryAddress } = action.payload;
            const { newOrders, userInfo } = yield select(getStoreData);
            const orderItems = newOrders.values();
-           const data= {
+           const data = {
                userID: userInfo.get('id'),
                delivery_address: deliveryAddress,
                data: orderItems,
            }
+           const res = yield call(ordersApi.placeOrder, data );
+           console.log(res);
        } catch(e) {
 
        }
