@@ -91,7 +91,7 @@ pizzaDb.placeOrder = (order, data) => {
                 const { prod_id, quantity } = data[i];
                 values.push([orderID, prod_id, quantity, status]);
             }
-
+            console.log(sql, values);
             pool.query(sql, [values], (err, results) => {
                 console.log(err);
                if(err) throw err;
