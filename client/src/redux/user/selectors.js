@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import groupBy from 'lodash/groupBy';
+import { dataSelector } from '../products/selectors';
 
 export const userSelector = state => state.userData;
 
@@ -35,4 +36,35 @@ export const userOrdersSelector = createSelector(
 export const orderItemSelector = (id) => createSelector(
     ordersSelector,
     ordersData => ordersData.getIn(["newOrder", `${id}`]) || {},
+)
+
+export const cartSelector = createSelector(
+    ordersSelector,
+    ordersData => {
+        const newOrder = ordersData.get("newOrder");
+        const [...data] = newOrder.values();
+        return data;
+    }
+)
+
+export const priceSelector = createSelector(
+    cartSelector,
+    dataSelector,
+    (cart, products) => {
+        console.log(cart, products);
+        let overallPrice = 0;
+        if (cart.length) {
+            for (let  i = 0; i < cart.length ; i++) {
+                const { prod_id, quantity } = cart[i];
+                const product = products.find((item) => item.prod_id === prod_id);
+                if (product) {
+                   const { price } = product;
+                   console.log(price * quantity);
+                   overallPrice += price * quantity;
+                }
+            }
+        }
+        console.log(overallPrice);
+        return overallPrice;
+    }
 )

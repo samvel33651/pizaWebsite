@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { render } from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -23,7 +23,10 @@ sagaMiddleware.run(rootSaga);
 
 const  app = (
     <Provider store={store}>
-        <App />
+        <Fragment>
+            <App />
+        </Fragment>
+
     </Provider>
 )
 

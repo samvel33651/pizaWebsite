@@ -42,11 +42,18 @@ class  Login extends Component {
         }
     }
 
+    componentWillUnmount() {
+        const {location} = this.props;
+        if(location.state && location.state.from) {
+            this.props.history.push(location.state.from.pathname);
+        } else {
+            this.props.history.push('/');
+        }
+    }
 
     render() {
         const { email, password } = this.state;
         const { isLoading, userInfo } = this.props;
-        console.log(userInfo);
         if(userInfo.get("id") !== null) {
           return <Redirect to="/" />;
         }

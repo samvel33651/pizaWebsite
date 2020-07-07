@@ -14,3 +14,8 @@ export const  loadingSelector = createSelector(
     productsSelector,
     products => products.getIn(['ui', 'loading'])
 )
+
+export const productSelector = (prod_id) => createSelector(
+    dataSelector,
+    data => data.find((item) => +item.prod_id === +prod_id)
+)

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import actions from '../../redux/user/actions';
 import { orderItemSelector } from '../../redux/user/selectors'
 import fromUSDToEUR from '../../helpers/currencyConverter';
+import QuantityInput from '../../components/quantityInput';
 import './product.css';
 
 class Product extends Component {
@@ -25,7 +26,7 @@ class Product extends Component {
         };
         this.addToCart = this.addToCart.bind(this);
         this.changeQty = this.changeQty.bind(this);
-        this.onPlusCLicked = this.onPlusCLicked.bind(this);
+        this.onPlusClicked = this.onPlusClicked.bind(this);
         this.onMinusClicked = this.onMinusClicked.bind(this);
         this.handleOrderChange = this.handleOrderChange.bind(this);
     }
@@ -59,7 +60,7 @@ class Product extends Component {
         setCartToStorage();
     }
 
-    onPlusCLicked(event) {
+    onPlusClicked(event) {
         event.preventDefault();
         const {id, qty} = this.state;
         const maxQTY = 15
@@ -110,19 +111,12 @@ class Product extends Component {
                             <div className="d-flex justify-content-between align-items-center">
                                 <div className="btn-group">
                                     {id ? (
-                                        <div className="input-group">
-                                          <span className="input-group-btn">
-                                              <button type="button" className="btn btn-danger btn-number" onClick={this.onMinusClicked} >
-                                                  <span className=""> - </span>
-                                              </button>
-                                          </span>
-                                        <input type="text" className="form-control qty-input input-number" onChange={this.changeQty} value={qty} min="1"  max="15"/>
-                                          <span className="input-group-btn">
-                                              <button type="button" className="btn btn-success btn-number" onClick={this.onPlusCLicked} >
-                                                  <span className="">+</span>
-                                              </button>
-                                          </span>
-                                        </div>
+                                        <QuantityInput
+                                            onMinusClicked={this.onMinusClicked}
+                                            onPlusClicked={this.onPlusClicked}
+                                            qty={qty}
+                                            changeQty={this.changeQty}
+                                        />
                                     ): ( <button type="button" className="btn btn-sm btn-outline-secondary" onClick={this.addToCart}>Add to cart</button>)
                                     }
                                 </div>

@@ -1,6 +1,7 @@
 import React, { Fragment }  from 'react';
+import PriceBlock from "../priceBlock";
 import "./order.css";
-import fromUSDToEUR from '../../helpers/currencyConverter';
+
 
 const Order = (props) => {
     const { data } = props;
@@ -30,9 +31,7 @@ const Order = (props) => {
                     )
                 })
             }
-            <span className="price">Pizza Price: {overAllPrice.toFixed(2)}$ / {fromUSDToEUR(overAllPrice)}</span>
-            <span className="price">Delivery Price: {deliveryPrice}$ / {fromUSDToEUR(deliveryPrice)} </span>
-            <span className="price">Overall Price : {(deliveryPrice + overAllPrice).toFixed(2)}$ / {fromUSDToEUR(overAllPrice + deliveryPrice)}</span>
+            <PriceBlock oP={overAllPrice} />
         </div>
     )
 }

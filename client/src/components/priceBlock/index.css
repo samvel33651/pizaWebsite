@@ -1,0 +1,32 @@
+span.price {
+    display: flex;
+    justify-content: flex-end;
+    color: #554d4d;
+    font-size: 24px;
+}
+
+.deliveryPrice,
+.pizzaPrice {
+    color: #999;
+
+}
+
+.totalPrice {
+    color: #000;
+    font-weight: bold;
+}
+
+.deliveryPrice,
+.pizzaPrice,
+.totalPrice {
+    display: inline-block;
+    margin-right:15px;
+}
+
+.price-text {
+    color: #ee3a43;
+}
+
+.total-text {
+    font-weight: bold;
+}

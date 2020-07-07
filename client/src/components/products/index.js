@@ -32,7 +32,6 @@ class  Products extends Component {
         }
 
         return products.map((product) => {
-            console.log(product);
             return <Product key={product.prod_id} product={product} />
         })
     }

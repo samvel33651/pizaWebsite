@@ -1,7 +1,9 @@
 import { takeEvery, put, call, all, fork, select } from 'redux-saga/effects';
 import actions from './actions';
+import productActions from "../products/actions";
 import authApi from '../../helpers/api/auth';
 import ordersApi from '../../helpers/api/orders';
+import { NotificationManager } from 'react-notifications';
 
 function getStoreData(state) {
     const { userData } = state;
@@ -16,16 +18,18 @@ function* login() {
         try{
             const { data } = action.payload;
             yield put(actions.setUi(true));
-            console.log(data);
             const res = yield call(authApi.authenticateUser, data );
+
             if(res.status) {
                 const { userData } = res;
                 console.log(userData);
                 localStorage.setItem('userInfo', JSON.stringify(userData));
                 yield put(actions.setUserInfo(userData));
-                // yield put(actions.setProducts(res.products));
+                yield put(productActions.setProducts(res.products));
+                NotificationManager.success('User Logged in successfully!', '' ,5000);
             }
         } catch(e){
+            NotificationManager.error(e.message, '' ,5000);
             console.log(e);
         }
         yield put(actions.setUi(false));
