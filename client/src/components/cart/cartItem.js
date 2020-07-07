@@ -123,18 +123,6 @@ class CartItem extends Component {
                     </div>
                 </div>
             </div>
-
-            // <div className="order-item">
-            //     <span>{title}</span>
-            //     <QuantityInput
-            //         onMinusClicked={this.onMinusClicked}
-            //         onPlusClicked={this.onPlusClicked}
-            //         qty={quantity}
-            //         changeQty={this.changeQty}
-            //     />
-            //     <span>{quantity * price}</span>
-            //
-            // </div>
         );
     }
 }

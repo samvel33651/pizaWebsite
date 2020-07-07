@@ -21,6 +21,15 @@ class Header extends Component {
     constructor(props) {
         super(props);
         this.onLogoutClicked = this.onLogoutClicked.bind(this);
+        this.checkActiveStatus = this.checkActiveStatus.bind(this);
+        this.state = {
+            menu: false
+        };
+        this.toggleMenu = this.toggleMenu.bind(this);
+    }
+
+    toggleMenu(){
+        this.setState({ menu: !this.state.menu })
     }
 
     onLogoutClicked(event) {
@@ -30,32 +39,39 @@ class Header extends Component {
         history.push('/');
     }
 
+    checkActiveStatus(name) {
+        const { location } = this.props;
+        return location.pathname === name ? 'active': ''
+    }
+
     render(){
         const { userInfo } = this.props;
+        const show = (this.state.menu) ? "show" : "" ;
+        this.checkActiveStatus();
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                 <div className="container">
-                    <a className="navbar-brand" href="#">Start Bootstrap</a>
-                    <button className="navbar-toggler collapsed" type="button" data-toggle="collapse"
+                    <a className="navbar-brand" href="/">Start Bootstrap</a>
+                    <button className="navbar-toggler collapsed" type="button" data-toggle="collapse" onClick={this.toggleMenu}
                             data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                             aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div className="navbar-collapse collapse" id="navbarResponsive" >
+                    <div className={`collapse navbar-collapse ${show}`} id="navbarResponsive" >
                         <ul className="navbar-nav ml-auto">
-                            <li className="nav-item active">
-                                <a className="nav-link" href="/">Home
+                            <li className={`nav-item ${this.checkActiveStatus('/')}`}>
+                                <a className="nav-link" href="/">Menu
                                     <span className="sr-only">(current)</span>
                                 </a>
                             </li>
-
+                            <li className={`nav-item ${this.checkActiveStatus('/cart')}`}>
+                                <a className="nav-link" href="/cart">Cart</a>
+                            </li>
                             {userInfo.get("id") ?
                                 (
                                     <Fragment>
-                                        <li className="nav-item">
-                                            <a className="nav-link" href="/cart">Cart</a>
-                                        </li>
-                                        <li className="nav-item">
+
+                                        <li className={`nav-item ${this.checkActiveStatus('/orders')}`}>
                                             <a className="nav-link" href="/orders">Orders</a>
                                         </li>
                                         <li className="nav-item">

@@ -1,7 +1,4 @@
 import React, { Component }  from "react";
-import { connect } from "react-redux";
-import { userInfoSelector} from "../../redux/user/selectors";
-import actions from "../../redux/user/actions"
 import { NotificationManager } from 'react-notifications';
 import "./index.css";
 
@@ -48,11 +45,11 @@ class CheckoutForm extends Component {
                 <div className="form-row">
                     <div className="form-group col-md-6">
                         <label htmlFor="inputEmail4">Email</label>
-                        <input type="email" className="form-control" disabled value={userInfo.get("email")} placeholder="Email"/>
+                        <input type="email" className="form-control" disabled value={userInfo.get("email") || ''} placeholder="Email"/>
                     </div>
                     <div className="form-group col-md-6">
                         <label htmlFor="inputPassword4">Name</label>
-                        <input type="text" className="form-control"  disabled value={ userInfo.get("name") } placeholder="Password"/>
+                        <input type="text" className="form-control"  disabled value={ userInfo.get("name") || '' } placeholder="Password"/>
                     </div>
                 </div>
                 <div className="form-group">
@@ -65,15 +62,4 @@ class CheckoutForm extends Component {
     }
 }
 
-const  mapStateToProps = (state) => {
-    const userInfo = userInfoSelector(state);
-    return {
-        userInfo,
-    }
-}
-
-const mapDispatchToProps = {
-
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm)
+export default CheckoutForm

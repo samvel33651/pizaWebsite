@@ -133,6 +133,7 @@ function* placeOrder() {
            if (res.status) {
                NotificationManager.success("Order placed successfully. Currently  it is on the way!", '' ,5000);
                yield put(actions.resetNewOrder());
+               yield put(actions.setCartToStorage());
            }
        } catch(e) {
            NotificationManager.success("Something went wrong. Please refresh  and try  again.", '' ,5000);

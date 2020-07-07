@@ -19,8 +19,13 @@
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     font-size: 15px;
     color: #a8abad;
+    margin-bottom: 15px;
 }
 
 .priceColumn {
     text-align: right;
+}
+
+.orderImg {
+    width: 100px;
 }
