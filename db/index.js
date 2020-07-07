@@ -73,6 +73,8 @@ pizzaDb.getUserOrders = (userID) => {
 
             pool.query(sql, (err, results) => {
                 if(err) throw err;
+                console.log('error', err)
+                console.log('results', results)
                resolve(results);
             });
         })
