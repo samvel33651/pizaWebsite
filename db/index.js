@@ -81,8 +81,10 @@ pizzaDb.getUserOrders = (userID) => {
 
 pizzaDb.placeOrder = (order, data) => {
     return new Promise((resolve, reject) => {
-        console.log(order);
-        pool.query(`INSERT INTO orders (user_id, delivery_address) VALUES ?`, [ [ order.user_id, order.delivery_address ] ], (err, result) => {
+        const { user_id, delivery_address } = order;
+        console.log(user_id, delivery_address);
+        pool.query(`INSERT INTO orders (user_id, delivery_address) VALUES (${user_id}, ${delivery_address})`, (err, result) => {
+            console.log(result);
             if(err) reject(err);
             const orderID = result.insertId
             const sql = `INSERT INTO orderdetails (order_id, prod_id, quantity, status) VALUES ?`;
