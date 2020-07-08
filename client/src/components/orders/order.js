@@ -25,12 +25,15 @@ const Order = (props) => {
                                     <span>{title}</span>
                                 </div>
                                 <div className="col-md-2">
+                                    <span>x{qty}</span>
+                                </div>
+                                <div className="col-md-2">
                                   <span>{delivery_address}</span>
                                 </div>
                                 <div className="col-md-2">
                                     <span className="text-info">{DELIVERY_STATUS[status]}</span>
                                 </div>
-                                <div  className="col-md-4 priceColumn">
+                                <div  className="col-md-2 priceColumn">
                                     <span>{(price * qty).toFixed(2)}$</span>
                                 </div>
                             </div>
