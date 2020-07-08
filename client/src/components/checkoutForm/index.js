@@ -37,7 +37,7 @@ class CheckoutForm extends Component {
         const { onOrderPlace } = this.props;
         const { address } = this.state;
         if(address === "" || address.length < 5) {
-            NotificationManager.error("Address is required  and its length  must  be more than 5", '' ,5000);
+            NotificationManager.error("Address is required.  Should contain more than 5 characters.", '' ,5000);
             return;
         }
         onOrderPlace(address);
@@ -65,7 +65,7 @@ class CheckoutForm extends Component {
                     <label htmlFor="inputAddress">Address</label>
                     <input type="text" className="form-control" required onChange={this.onAddressChanged} value={address} placeholder="1234 Main St"/>
                 </div>
-                <button type="button" onClick={this.placeOrder}  disabled={disabled} className="btn btn-success float-right">PlaceOrder</button>
+                <button type="button" onClick={this.placeOrder}  disabled={disabled} className="btn btn-success float-right">Place Order</button>
             </div>
         );
     }

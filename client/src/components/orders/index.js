@@ -39,7 +39,7 @@ class Orders extends Component {
     renderOrders() {
         const { orders } = this.props;
         const orderIds = Object.keys(orders);
-        if (!orders.length) {
+        if (!orderIds.length) {
            return (<h3 className="text-center">No orders to show</h3>) ;
         }
         const result = [];
