@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import groupBy from 'lodash/groupBy';
+import sortBy from 'lodash/sortBy';
 import { dataSelector } from '../products/selectors';
 
 export const userSelector = state => state.userData;

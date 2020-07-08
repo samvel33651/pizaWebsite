@@ -25,7 +25,7 @@ const Order = (props) => {
                                     <span>{title}</span>
                                 </div>
                                 <div className="col-md-2">
-                                    <span>x{qty}</span>
+                                    <span>x {qty}</span>
                                 </div>
                                 <div className="col-md-2">
                                   <span>{delivery_address}</span>

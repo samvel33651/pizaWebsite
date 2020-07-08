@@ -42,9 +42,10 @@ class Orders extends Component {
         if (!orderIds.length) {
            return (<h3 className="text-center">No orders to show</h3>) ;
         }
+        const sortedIds = orderIds.sort((a, b) => b - a);
         const result = [];
-        for (let i = 0; i< orderIds.length; i++) {
-            const id = orderIds[i];
+        for (let i = 0; i< sortedIds.length; i++) {
+            const id = sortedIds[i];
             const order = orders[id];
             result.push(<Order data={order} key={id} />);
         }
