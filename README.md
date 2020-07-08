@@ -11,3 +11,7 @@ Start App
 Config files
 Db config file placed in ./db/dbConfig.js file,
 Frontend Api Config(url) placed in ./client/src/helpers/api/inde.js (API_URL)
+
+Technologies used 
+1. For back-end: node.js, express, mysql
+2. For front-end: React.js, Redux.js, redux-saga, Immutble.js, Reselect, Bootstrap
