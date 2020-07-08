@@ -48,11 +48,16 @@ class  RegisterPage extends  Component {
         });
     }
 
+    validateEmail(email) {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
     onRegisterClicked() {
         const { email, password, name } = this.state;
         const { registerUser } = this.props;
-        if(email === "" || password === "" || name === "") {
-            NotificationManager.error("User email, password and name cant  be empty.", '' ,5000);
+        if(email === "" || password === "" || name === "" || !this.validateEmail(email)) {
+            NotificationManager.error("User email, password and name cant  be empty or wrong email", '' ,5000);
             return;
         }
         registerUser({email, password, name});
