@@ -1,20 +1,25 @@
-import React, { Component }  from 'react';
-import { connect } from 'react-redux';
-import { productSelector } from '../../redux/products/selectors';
-import isEmpty from 'lodash/isEmpty';
-import QuantityInput from '../quantityInput';
+import React, { Component }  from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { productSelector } from "../../redux/products/selectors";
+import isEmpty from "lodash/isEmpty";
+import QuantityInput from "../quantityInput";
 import actions from "../../redux/user/actions";
-import fromUSDToEUR from '../../helpers/currencyConverter';
-import './cartItem.css';
-
+import fromUSDToEUR from "../../helpers/currencyConverter";
+import "./cartItem.css";
 
 class CartItem extends Component {
     static propTypes = {
-
+        order: PropTypes.object,
+        product: PropTypes.object,
+        changeOrderQTY: PropTypes.func.isRequired,
+        setCartToStorage: PropTypes.func.isRequired,
+        removeFromOrder: PropTypes.func.isRequired,
     }
 
     static defaultProps = {
-
+        order: {},
+        product: {},
     }
 
     constructor(props) {
@@ -90,7 +95,7 @@ class CartItem extends Component {
     }
 
     render() {
-        const { order, product } = this.props;
+        const {  product } = this.props;
         const { quantity } = this.state;
         if(isEmpty(product)) return null;
         const { prod_id, title, price, img_src  } = product;
@@ -99,8 +104,7 @@ class CartItem extends Component {
             <div className="order-item row" key={prod_id}>
                 <div className="col-md-12 well">
                     <div className="col-md-3">
-                        {/*<img src="http://placehold.it/100x100"></img>*/}
-                        <img className="orderImg" src={img} />
+                        <img className="orderImg" src={img} alt={title} />
                     </div>
                     <div className="col-md-2">
                         <span>{title}</span>

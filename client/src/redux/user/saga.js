@@ -18,17 +18,23 @@ function getStoreData(state) {
 function* login() {
     yield takeEvery(actions.LOGIN_USER, function* (action) {
         try{
-            const { data } = action.payload;
+            console.log(action.payload);
+            const { data, redirectAfter } = action.payload;
             yield put(actions.setUi(true));
             const res = yield call(authApi.authenticateUser, data );
 
             if(res.status) {
                 const { userData } = res;
-                console.log(userData);
                 localStorage.setItem('userInfo', JSON.stringify(userData));
                 yield put(actions.setUserInfo(userData));
                 yield put(productActions.setProducts(res.products));
                 NotificationManager.success('User Logged in successfully!', '' ,5000);
+                if(redirectAfter) {
+                    window.location.replace(redirectAfter);
+                } else {
+                    window.location.replace('/');
+                }
+
             }
         } catch(e){
             NotificationManager.error(e.data.message, '' ,5000);
@@ -40,15 +46,13 @@ function* login() {
 function* register() {
     yield takeEvery(actions.REGISTER_USER, function* (action) {
         try{
-            const { email, password, name } = action.payload;
+            const { userData } = action.payload;
             yield put(actions.setUi(true));
-            const data = { email, password, name };
-            console.log(data);
-            const res = yield call(authApi.registerUser, data );
-            console.log(res);
-            if(res){
+            const { email, password } = userData;
+            const res = yield call(authApi.registerUser, userData );
+            if (res) {
                 NotificationManager.success(res.message, '' ,5000);
-                yield put(actions.authenticateUser({email, password}));
+                yield put(actions.login({email, password}));
             }
         } catch(e){
             NotificationManager.error(e.data.message, '' ,5000);

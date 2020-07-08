@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import { deliveryPrice } from "../../constants/currencies";
 import fromUSDToEUR from "../../helpers/currencyConverter";
+
 import "./index.css"
 
 const PriceBlock = ({ oP }) => {
@@ -22,6 +24,14 @@ const PriceBlock = ({ oP }) => {
         </Fragment>
 
     );
+}
+
+PriceBlock.propTypes ={
+    oP: PropTypes.number,
+};
+
+PriceBlock.defaultProps= {
+  oP: 0,
 }
 
 export default PriceBlock;

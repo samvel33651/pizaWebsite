@@ -1,11 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import actions from "../../redux/user/actions";
+import { userInfoSelector, loadingSelector } from "../../redux/user/selectors";
+import { Redirect } from "react-router-dom";
+
 import './index.css';
-import { connect } from 'react-redux';
-import actions from '../../redux/user/actions';
-import { userInfoSelector, loadingSelector } from '../../redux/user/selectors';
-import { Redirect } from 'react-router-dom';
 
 class  Login extends Component {
+    static propTypes = {
+        isLoading: PropTypes.bool,
+        userInfo: PropTypes.object,
+        login: PropTypes.func.isRequired,
+    }
+
+    static defaultProps = {
+        isLoading: false,
+        userInfo: {},
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -35,10 +48,15 @@ class  Login extends Component {
 
     doLogin(event) {
         event.preventDefault();
+        const {location} = this.props;
+        let redirectTo = "/";
+        if(location.state && location.state.from) {
+            redirectTo =  location.state.from;
+        }
         const { login } = this.props;
         const { email, password } = this.state;
         if (password !== '' && email !== '') {
-            login({email, password});
+            login({email, password} , redirectTo);
         }
     }
 
@@ -67,7 +85,7 @@ class  Login extends Component {
                         <input type="password" className="form-control" onChange={this.onPasswordChanged} value= {password} placeholder="Password" required="required"/>
                     </div>
                     <div className="form-group">
-                        <button type="submit" className="btn btn-primary btn-block" onClick={this.doLogin}>
+                        <button type="submit" className="btn btn-primary btn-block" disabled={isLoading} onClick={this.doLogin}>
                             {isLoading && <span className="spinner-border spinner-border-sm" />}
                             Log in
                         </button>
@@ -79,7 +97,6 @@ class  Login extends Component {
 }
 
 const mapStateToProps = (state) => {
-    // const
     const isLoading = loadingSelector(state);
     const userInfo = userInfoSelector(state);
     return {

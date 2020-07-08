@@ -5,7 +5,6 @@ const  actions = {
     GET_USER_ORDERS: "GET_USER_ORDERS",
 
     SET_USER_INFO: "SET_USER_INFO",
-    SET_USER_CURRENCY: "SET_USER_CURRENCY",
     SET_USER_ORDERS: "SET_USER_ORDERS",
     PLACE_ORDER: "PLACE_ORDER",
     TOGGLE_ORDERS_LOADING: "TOGGLE_ORDERS_LOADING",
@@ -43,17 +42,11 @@ const  actions = {
        }
     }),
 
-    setUSerCurrency: (currencyID) => ({
-       type: actions.SET_USER_CURRENCY,
-       payload: {
-           currencyID,
-       }
-    }),
-
-    login: (data) => ({
+    login: (data, redirectAfter) => ({
         type: actions.LOGIN_USER,
         payload:{
             data,
+            redirectAfter
         }
     }),
 

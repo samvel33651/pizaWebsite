@@ -1,0 +1,4 @@
+.logout:hover,
+.userName:hover {
+    cursor: pointer;
+}

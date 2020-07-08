@@ -1,4 +1,4 @@
-import { Map, List} from 'immutable';
+import { Map } from 'immutable';
 import actions from './actions';
 
 const initialState = new Map({
@@ -21,17 +21,11 @@ const initialState = new Map({
            loading: false,
        })
    }),
-   currency: new Map({
-       currencyID: 1 //$
-   }),
 
 });
 
 const userReducer  = (state = initialState, {type , payload}) => {
     switch (type) {
-        case actions.SET_USER_CURRENCY:
-            const { currencyID } = payload;
-            return  state.setIn(["currency", "currencyID"], currencyID);
         case actions.SET_USER_INFO:
             const { userInfo } = payload;
             return state.set("userInfo", new Map(userInfo));
@@ -53,7 +47,7 @@ const userReducer  = (state = initialState, {type , payload}) => {
         case actions.REMOVE_FROM_NEW_ORDERS:
             return state.removeIn(["userOrders", "newOrder", `${payload.prodID}`]);
         case actions.CHANGE_ORDER_QUANTITY:
-            const { prodID, qty} = payload;
+            const { qty} = payload;
             return state.setIn(["userOrders", "newOrder", `${payload.prodID}`, "quantity"], qty);
         case actions.RESET_NEW_ORDER:
             return  state.setIn(["userOrders", "newOrder"], new Map({}));

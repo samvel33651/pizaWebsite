@@ -5,6 +5,7 @@ import Product from './product';
 import Immutable, { List } from 'immutable';
 import { dataSelector, loadingSelector } from '../../redux/products/selectors'
 import actions from '../../redux/products/actions';
+import Loader from "../loader";
 
 const emptyList = new List();
 
@@ -38,7 +39,7 @@ class  Products extends Component {
     render(){
         const { isLoading } = this.props;
         if(isLoading) {
-            return 'Loading';
+            return <Loader />
         }
 
         return (

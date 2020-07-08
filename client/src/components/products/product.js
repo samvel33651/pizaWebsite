@@ -1,18 +1,23 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import actions from '../../redux/user/actions';
-import { orderItemSelector } from '../../redux/user/selectors'
-import fromUSDToEUR from '../../helpers/currencyConverter';
-import QuantityInput from '../../components/quantityInput';
-import './product.css';
+import React, { Component } from "react";
+import PropTypes from "prop-types"
+import { connect } from "react-redux";
+import actions from "../../redux/user/actions";
+import { orderItemSelector } from "../../redux/user/selectors";
+import fromUSDToEUR from "../../helpers/currencyConverter";
+import QuantityInput from "../../components/quantityInput";
+import "./product.css";
 
 class Product extends Component {
     static propTypes = {
-
+        orderItem: PropTypes.object,
+        addToCart: PropTypes.func.isRequired,
+        changeOrderQTY: PropTypes.func.isRequired,
+        setCartToStorage: PropTypes.func.isRequired,
+        removeFromOrder: PropTypes.func.isRequired,
     }
 
     static  defaultProps = {
-
+        orderItem: {}
     }
 
     constructor(props) {
@@ -104,6 +109,7 @@ class Product extends Component {
                 <div className="card mb-4 box-shadow">
                     <img className="card-img-top"
                          src={img}
+                         alt={title}
                          data-holder-rendered="true"/>
                         <div className="card-body">
                             <p className="card-text text-title">{title}</p>

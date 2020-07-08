@@ -1,11 +1,26 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
-import actions from '../../redux/user/actions';
-import { ordersLoaderSelector, userInfoSelector, userOrdersSelector} from '../../redux/user/selectors';
-import Order from './order';
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import actions from "../../redux/user/actions";
+import { ordersLoaderSelector, userInfoSelector, userOrdersSelector} from "../../redux/user/selectors";
+import Order from "./order";
+import Loader from "../loader";
+
 import './index.css';
 
 class Orders extends Component {
+    static propTypes = {
+        isLoading: PropTypes.bool,
+        userID: PropTypes.number,
+        orders: PropTypes.object,
+        getUerOrders: PropTypes.func.isRequired,
+    }
+
+    static defaultProps = {
+        isLoading: false,
+        userID: null,
+        orders: {},
+    }
 
     componentDidMount() {
         const { userID, getUerOrders } = this.props;
@@ -24,6 +39,9 @@ class Orders extends Component {
     renderOrders() {
         const { orders } = this.props;
         const orderIds = Object.keys(orders);
+        if (!orders.length) {
+           return (<h3 className="text-center">No orders to show</h3>) ;
+        }
         const result = [];
         for (let i = 0; i< orderIds.length; i++) {
             const id = orderIds[i];
@@ -36,11 +54,10 @@ class Orders extends Component {
     render() {
         const { isLoading } = this.props;
         if(isLoading){
-            return <div className="spinner-border loader"/>
+            return <Loader />;
         }
         return(
             <Fragment>
-                <h1>Orders</h1>
                 {this.renderOrders()}
             </Fragment>
         );

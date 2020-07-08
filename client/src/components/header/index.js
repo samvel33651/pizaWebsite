@@ -5,13 +5,12 @@ import actions from "../../redux/user/actions";
 import { userInfoSelector } from "../../redux/user/selectors";
 import { withRouter } from "react-router-dom";
 
+import "./index.css";
+
 class Header extends Component {
     static propTypes = {
-       userInfo: PropTypes.shape({
-           userID: PropTypes.number,
-           userName: PropTypes.string,
-           email: PropTypes.string
-       })
+       userInfo: PropTypes.object,
+       logout: PropTypes.func.isRequired,
     }
 
     static defaultProps = {
@@ -51,7 +50,7 @@ class Header extends Component {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                 <div className="container">
-                    <a className="navbar-brand" href="/">Start Bootstrap</a>
+                    <a className="navbar-brand" href="/">Pizza Test Assigment</a>
                     <button className="navbar-toggler collapsed" type="button" data-toggle="collapse" onClick={this.toggleMenu}
                             data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                             aria-label="Toggle navigation">
@@ -75,10 +74,10 @@ class Header extends Component {
                                             <a className="nav-link" href="/orders">Orders</a>
                                         </li>
                                         <li className="nav-item">
-                                            <a className="nav-link" >{userInfo.get("name")}</a>
+                                            <span className="nav-link userName" >{userInfo.get("name")}</span>
                                         </li>
                                         <li className="nav-item">
-                                            <a className="nav-link" onClick={this.onLogoutClicked}>Logout</a>
+                                            <span className="nav-link logout" onClick={this.onLogoutClicked}>Logout</span>
                                         </li>
                                     </Fragment>
                                 ) :

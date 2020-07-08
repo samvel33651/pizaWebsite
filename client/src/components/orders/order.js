@@ -1,24 +1,25 @@
-import React, { Fragment }  from 'react';
+import React  from "react";
+import PropTypes from "prop-types";
 import PriceBlock from "../priceBlock";
-import "./order.css";
 import { DELIVERY_STATUS } from "../../constants/statusConstants";
+
+import "./order.css";
 
 const Order = (props) => {
     const { data } = props;
-    const deliveryPrice = 7.65;
     let overAllPrice = 0;
     return (
         <div className="order">
             {
                 data.map((item) => {
-                    const { description, title, img_src, price, qty, prod_id, delivery_address, status } = item;
+                    const { title, img_src, price, qty, prod_id, delivery_address, status } = item;
                     overAllPrice +=(price * qty);
                     const img = require('../../' + img_src);
                     return (
                         <div className="order-item row" key={prod_id}>
                             <div className="col-md-12 well">
                                 <div className="col-md-2">
-                                    <img className="orderImg" src={img} />
+                                    <img className="orderImg" src={img} alt={title} />
                                 </div>
                                 <div className="col-md-2">
                                     <span>{title}</span>
@@ -41,5 +42,14 @@ const Order = (props) => {
         </div>
     )
 }
+
+Order.propTypes = {
+    data: PropTypes.array,
+};
+
+Order.defaultProps = {
+    data: [],
+}
+
 
 export default Order;

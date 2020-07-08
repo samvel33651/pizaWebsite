@@ -1,5 +1,5 @@
-import react  from 'react';
 import React from "react";
+import PropTypes from "prop-types";
 
 const QuantityInput = ({onMinusClicked, changeQty ,qty, onPlusClicked }) => {
     return (
@@ -17,6 +17,13 @@ const QuantityInput = ({onMinusClicked, changeQty ,qty, onPlusClicked }) => {
             </span>
         </div>
     )
+}
+
+QuantityInput.propTypes = {
+    onMinusClicked: PropTypes.func.isRequired,
+    changeQty: PropTypes.func.isRequired,
+    qty: PropTypes.number.isRequired,
+    onPlusClicked: PropTypes.func.isRequired,
 }
 
 export default QuantityInput;

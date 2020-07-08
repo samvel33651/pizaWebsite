@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import {cartSelector, priceSelector, userInfoSelector} from "../../redux/user/selectors";
 import CartItem from "./cartItem";
@@ -7,12 +8,24 @@ import userActions from "../../redux/user/actions";
 import { Link } from "react-router-dom";
 import PriceBlock from "../priceBlock";
 import CheckoutForm from "../checkoutForm";
-import { Redirect } from "react-router-dom";
-import './index.css';
 import {NotificationManager} from "react-notifications";
-
+import './index.css';
 
 class Cart extends Component {
+    static propTypes = {
+        cart: PropTypes.array,
+        overallPrice: PropTypes.number,
+        userInfo: PropTypes.object,
+        getProducts: PropTypes.func.isRequired,
+        placeOrder: PropTypes.func.isRequired
+    }
+
+    static defaultProps = {
+        cart: [],
+        overallPrice: 0,
+        userInfo: {}
+    }
+
     constructor(props) {
         super(props);
         this.state ={
@@ -21,10 +34,12 @@ class Cart extends Component {
         this.toggleForm = this.toggleForm.bind(this);
         this.placeOrder = this.placeOrder.bind(this);
     }
+
     componentDidMount() {
         const { getProducts } = this.props
         getProducts();
     }
+
     renderItems() {
         const { cart } = this.props;
         return cart.map((item) => {
@@ -37,7 +52,12 @@ class Cart extends Component {
         const userID = userInfo.get("id");
         if(!userID) {
             NotificationManager.info("Please login.", '' ,5000);
-            history.push('/login');
+            history.push({
+                pathname: '/login',
+                state: {
+                    from: this.props.location.pathname
+                }
+            });
             return;
         }
         this.setState((state) => {
@@ -64,7 +84,7 @@ class Cart extends Component {
             return (
                 <div className="row empty-cart align-middle">
                     <div  className="col-md-12">
-                        <img src={img} al="cart" />
+                        <img src={img} alt="cart" />
                         <p className="text-center emptyText">Cart is empty</p>
                         <p className="text-center goToHome"><Link  className="btn btn-danger" to="/">Go to menu</Link></p>
                     </div>
@@ -74,7 +94,7 @@ class Cart extends Component {
         }
 
         if(showForm) {
-            return <CheckoutForm totalPrice={overallPrice} onOrderPlace={this.placeOrder} userInfo={userInfo} />;
+            return <CheckoutForm onOrderPlace={this.placeOrder} userInfo={userInfo} />;
         }
 
         return(

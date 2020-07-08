@@ -1,8 +1,17 @@
 import React, { Component }  from "react";
-import { NotificationManager } from 'react-notifications';
+import PropTypes from "prop-types";
+import { NotificationManager } from "react-notifications";
 import "./index.css";
 
 class CheckoutForm extends Component {
+    static propTypes = {
+        userInfo: PropTypes.object,
+        onOrderPlace: PropTypes.func.isRequired,
+    }
+
+    static defaultProps = {
+        userInfo: {},
+    }
 
     constructor(props) {
         super(props);
@@ -16,9 +25,10 @@ class CheckoutForm extends Component {
 
     onAddressChanged(event) {
         const { value } = event.target;
-        const error = value.length < 5;
+        const disabled = value.length < 5;
         this.setState({
             address: value,
+            disabled
         });
     }
 
@@ -37,11 +47,10 @@ class CheckoutForm extends Component {
     }
 
     render() {
-        const { userInfo, totalPrice } = this.props;
+        const { userInfo } = this.props;
         const {  address, disabled } = this.state;
         return (
            <div className="deliveryForm">
-               <span className="text">Total Price: {totalPrice}</span>
                 <div className="form-row">
                     <div className="form-group col-md-6">
                         <label htmlFor="inputEmail4">Email</label>
