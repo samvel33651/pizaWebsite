@@ -73,8 +73,10 @@ pizzaDb.getUserOrders = (userID) => {
                     if(err) throw err;
                     resolve(results);
                 });
+            }else {
+                resolve([]);
             }
-            resolve([]);
+
         })
     });
 }
