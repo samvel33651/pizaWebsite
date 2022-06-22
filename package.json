@@ -12,7 +12,7 @@
     "pm2": "^4.4.0"
   },
   "devDependencies": {
-    "async": "^3.2.0",
+    "async": "^3.2.2",
     "nodemon": "^2.0.4"
   },
   "scripts": {
